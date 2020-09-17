@@ -1,0 +1,18 @@
+.navbar-dark {
+  background-color: #2e86c1;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.content {
+  min-height: calc(100vh - 20px);
+}
+
+.footer{
+  background-color: #bdd2fa;
+  bottom: 0;
+  padding: 20px 0px 20px 0px;
+  width: 100%;
+}
