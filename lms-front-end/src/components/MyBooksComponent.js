@@ -68,7 +68,7 @@ class MyBooksComponent extends Component {
                                                     <td style={{width: "62%"}}>{book.name}</td>
                                                     <td style={{width: "30%"}}>{book.category}</td>
                                                     <td style={{width: "8%"}}>
-                                                        <Button outline color="primary" onClick={() => this.returnBook(book.id)}>Return</Button>
+                                                        <Button outline color="danger" onClick={() => this.returnBook(book.id)}>Return</Button>
                                                     </td>
                                                 </tr>
                                             )
