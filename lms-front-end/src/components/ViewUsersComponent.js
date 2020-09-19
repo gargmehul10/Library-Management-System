@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem, Table, Button } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Table, Button, Alert } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import AdminService from '../services/AdminService';
 import { Spring } from 'react-spring/renderprops';
+import { ToastContainer, toast, Flip } from 'react-toastify';
 
 class ViewUsersComponent extends Component {
 
@@ -28,13 +29,25 @@ class ViewUsersComponent extends Component {
 
     deleteUser(id) {
 
-        // do this inside rest api 
-        AdminService.deleteUserById(id).then((res) => {
+        AdminService.getUserById(id).then((response) => {
+
+            if(response.data.books.length === 0) {
+
+                AdminService.deleteUserById(id).then((res) => {
             
-            this.setState({
-                users: this.state.users.filter((user) => user.id !== id),
-            })
-        });
+                    this.setState({
+                        users: this.state.users.filter((user) => user.id !== id),
+                    })
+
+                    toast.success('☑️ User deleted successfully!');
+                });
+            }
+            else {
+
+                toast.error('❌ Unable to delete!', { autoClose: 2000 });
+                toast.warn('⚠️ This user has some books reserved.', { delay: 1000 });
+            }
+        });   
     }
 
     componentDidMount() {
@@ -42,10 +55,7 @@ class ViewUsersComponent extends Component {
         // fetch get request here 
         AdminService.getAllUsers().then((res) => {
             this.setState({
-                users: res.data,
-            })
-            this.setState({
-                users: this.state.users.filter((user) => user.role > 'ROLE_ADMIN'),
+                users: res.data.filter((user) => user.role > 'ROLE_ADMIN'),
             })
         });
     }
@@ -62,10 +72,6 @@ class ViewUsersComponent extends Component {
                                     <BreadcrumbItem><Link to='/home'>Home</Link></BreadcrumbItem>
                                     <BreadcrumbItem active>View Users</BreadcrumbItem>
                                 </Breadcrumb>
-                                <div className="col-12">
-                                    <h3>View Users</h3>
-                                    <hr />
-                                </div>
                             </div>
                             <div style={props} className="row col-auto">
                                 <Table hover borderless>
@@ -90,6 +96,18 @@ class ViewUsersComponent extends Component {
                                     </tbody>
                                 </Table>
                             </div>
+                            <ToastContainer
+                                position="top-right"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggablePercent={60}
+                                pauseOnHover={false}
+                                transition={Flip}
+                            />
                         </div>
                     )}
             </Spring>

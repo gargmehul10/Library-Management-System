@@ -32,8 +32,10 @@ class UpdateUserComponent extends Component {
     handleSubmit(values) {
 
         AdminService.updateUser(values, this.state.id).then((res) => {
+
             this.props.history.push('/view-users');
         }).catch(() => {
+            
             this.setState({ hasUpdateUserFailed: true });
         });
     }

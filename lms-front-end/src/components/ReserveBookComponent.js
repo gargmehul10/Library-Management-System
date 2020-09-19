@@ -5,6 +5,7 @@ import { Button, Alert } from 'reactstrap';
 import AdminService from '../services/AdminService';
 import { USER_NAME_SESSION_ATTRIBUTE_NAME } from '../services/SigninService';
 import UserService from '../services/UserService';
+import { ToastContainer, toast, Flip } from 'react-toastify';
 
 class ReserveBookComponent extends Component {
 
@@ -14,13 +15,11 @@ class ReserveBookComponent extends Component {
         
         this.state = {
             data: [],
-            isBookFinished: false,
             isReserved: false,
             onReserveText: '',
             reservedBooksCount: 0,
         }
 
-        this.onDismissBookFinished = this.onDismissBookFinished.bind(this);
         this.onDismissReserved = this.onDismissReserved.bind(this);
     }
 
@@ -28,9 +27,6 @@ class ReserveBookComponent extends Component {
 
         AdminService.getAllBooks().then((res) => {
 
-            // this.setState({
-            //     data: res.data,
-            // })
             UserService.getUserByEmailId(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)).then((response) => {
 
                 this.setState({
@@ -43,16 +39,19 @@ class ReserveBookComponent extends Component {
 
     onClickProductSelected(row){
 
-        if(row.quantity === 0 || this.state.reservedBooksCount === 3) {
-            this.setState({
-                isBookFinished: true,
-            });
+        if(row.quantity === 0 ) {
+            
+            toast.error('This book is currently unavailable. Please check later!');
+        } else if(this.state.reservedBooksCount === 3) {
+
+            toast.error('You can only reserve a maximum of 3 books.');
         }
         else {
             // reserve book api
             UserService.reserveBook(row.id, localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)).then((res) => {
 
                 this.setState({
+                    
                     // data: this.state.data.forEach((obj) => {
                     //     if(obj.id === row.id) {
                     //         obj["quantity"]--;
@@ -63,6 +62,8 @@ class ReserveBookComponent extends Component {
                     onReserveText: row.name,
                     reservedBooksCount: this.state.reservedBooksCount+1,
                 })
+
+                toast.success('☑️ Book reserved successfully!');
             });
         }
     }
@@ -79,13 +80,6 @@ class ReserveBookComponent extends Component {
         return (
           <Button color="warning" onClick={ onClick } style={{marginLeft: "1px"}}>Clear</Button>
         );
-    }
-
-    onDismissBookFinished() {
-        
-        this.setState({
-            isBookFinished: !this.state.isBookFinished,
-        });
     }
 
     onDismissReserved() {
@@ -111,13 +105,8 @@ class ReserveBookComponent extends Component {
                 to={{opacity: 1, padding: 0, }}>
                     { props => (
                         <div style={props} className="container content">
-                            <Alert isOpen={this.state.isBookFinished} toggle={this.onDismissBookFinished} color="danger">
-                                { this.state.reservedBooksCount !== 3 ? ( <h5>This book is currently unavailable. Please check later!</h5> ) : ( <h5>You can only reserve a maximum of 3 books.</h5> ) } 
-                            </Alert>
-                            <Alert isOpen={this.state.isReserved} toggle={this.onDismissReserved} color="success">
-                                <h5>{this.state.onReserveText} has been reserved successfully!</h5>
-                                <hr />
-                                <p>Please note that this book can be reserved only for a maximum of 2 weeks.</p>
+                            <Alert isOpen={this.state.isReserved} toggle={this.onDismissReserved} color="warning">
+                                ⚠️ Please note that {this.state.onReserveText} can be reserved only for a maximum of 2 weeks.
                             </Alert>
                             <BootstrapTable 
                                 data={this.state.data} 
@@ -134,6 +123,18 @@ class ReserveBookComponent extends Component {
                                 <TableHeaderColumn width="110" dataField='quantity' dataSort={true}>Quantity</TableHeaderColumn>
                                 <TableHeaderColumn width="100" dataField='button' dataFormat={this.cellButton.bind(this)}>Action</TableHeaderColumn>
                             </BootstrapTable>
+                            <ToastContainer
+                                position="top-right"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggablePercent={60}
+                                pauseOnHover={false}
+                                transition={Flip}
+                            />
                         </div>
                     )}
             </Spring>

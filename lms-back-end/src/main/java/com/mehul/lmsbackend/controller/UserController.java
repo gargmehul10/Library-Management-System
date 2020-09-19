@@ -34,12 +34,12 @@ public class UserController {
 		
 		User updatedUser = list.get(0);
 		updatedUser.getBooks().add(id);
+		userRepository.save(updatedUser);
 		
 		Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not exist with id :" + id));
 		book.setQuantity(book.getQuantity()-1);
 		bookRepository.save(book);
 		
-		userRepository.save(updatedUser);
 		return updatedUser;
 	}
 	
@@ -52,7 +52,7 @@ public class UserController {
 		return list.get(0);
 	}
 	
-	// reserve a book
+	// return a book
 	@PostMapping("/return/{id}")
 	public User returnBook(@PathVariable Long id, @RequestBody User user) {
 			
@@ -60,12 +60,12 @@ public class UserController {
 			
 		User updatedUser = list.get(0);
 		updatedUser.getBooks().remove(id);
+		userRepository.save(updatedUser);
 			
 		Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not exist with id :" + id));
 		book.setQuantity(book.getQuantity()+1);
 		bookRepository.save(book);
 			
-		userRepository.save(updatedUser);
 		return updatedUser;
 	}
 }

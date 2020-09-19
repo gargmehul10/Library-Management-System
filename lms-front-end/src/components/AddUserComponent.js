@@ -27,8 +27,10 @@ class AddUserComponent extends Component {
     handleSubmit(values) {
 
         AdminService.createUser(values).then((res) => {
+
             this.props.history.push('/view-users');
         }).catch(() => {
+
             this.setState({ hasAddUserFailed: true });
         });
 

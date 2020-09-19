@@ -26,8 +26,10 @@ class AddBookComponent extends Component {
     handleSubmit(values) {
 
         AdminService.createBook(values).then((res) => {
+
             this.props.history.push('/view-books');
         }).catch(() => {
+            
             this.setState({ hasAddBookFailed: true });
         });
 

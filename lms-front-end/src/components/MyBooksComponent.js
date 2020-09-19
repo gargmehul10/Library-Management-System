@@ -4,6 +4,7 @@ import { Button, Table } from 'reactstrap';
 import AdminService from '../services/AdminService';
 import { USER_NAME_SESSION_ATTRIBUTE_NAME } from '../services/SigninService';
 import UserService from '../services/UserService';
+import { ToastContainer, toast, Flip } from 'react-toastify';
 
 class MyBooksComponent extends Component {
 
@@ -26,6 +27,8 @@ class MyBooksComponent extends Component {
 
                 reservedBooks: this.state.reservedBooks.filter((book) => book.id !== id),
             });
+
+            toast.success('☑️ Book returned successfully!');
         });
     }
 
@@ -79,6 +82,18 @@ class MyBooksComponent extends Component {
                                     </tbody>
                                 </Table>
                             </div>
+                            <ToastContainer
+                                position="top-right"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggablePercent={60}
+                                pauseOnHover={false}
+                                transition={Flip}
+                            />
                         </div>
                     )}
             </Spring>

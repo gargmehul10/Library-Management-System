@@ -48,7 +48,7 @@ class HeaderComponent extends Component {
             <React.Fragment>
                 <Navbar dark expand="md">
                     <NavbarBrand className="mr-auto" href="/">
-                        <img src="assets/images/lms.png" height="45" width="200" alt="Library-Management-System"></img>
+                        <img style={{ marginRight: "20px" }} src="assets/images/lms.png" height="45" width="200" alt="Library-Management-System"></img>
                     </NavbarBrand>
                     { this.props.isUserLoggedIn && <NavbarToggler onClick={this.toggleNav} className="mr-2"/> }
                     { 
@@ -56,7 +56,7 @@ class HeaderComponent extends Component {
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                             { 
                                 this.props.hasRole < 'ROLE_USER' ? ( 
-                                <Nav navbar style={{marginLeft: "20px"}}>
+                                <Nav navbar>
                                     <NavItem>
                                         <NavLink className="nav-link" to="/home" onClick={this.toggleModal}>
                                             <span className="fa fa-home fa-lg"></span> Home
@@ -79,7 +79,7 @@ class HeaderComponent extends Component {
                                     </NavItem>
                                 </Nav> 
                                 ) : ( 
-                                <Nav navbar style={{marginLeft: "20px"}}>
+                                <Nav navbar>
                                     <NavItem>
                                         <NavLink className="nav-link" to="/reserve-book" onClick={this.toggleModal}>
                                             <span className="fa fa-home fa-lg"></span> Reserve Book
@@ -95,7 +95,7 @@ class HeaderComponent extends Component {
                             <Nav navbar className="ml-auto">
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav caret>
-                                        {localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)}
+                                        <span className="fa fa-user-circle fa-lg"></span> {localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)}
                                     </DropdownToggle>
                                     <DropdownMenu right>
                                         <DropdownItem to="/login" onClick={this.logoutPressed}>

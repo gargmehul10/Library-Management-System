@@ -14,7 +14,6 @@ import MyBooksComponent from './MyBooksComponent';
 import SigninService, { ROLE_SESSION_ATTRIBUTE_NAME } from '../services/SigninService';
 import LoginRoute from '../routes/LoginRoute';
 import RedirectRoute from '../routes/RedirectRoute';
-import { USER_NAME_SESSION_ATTRIBUTE_NAME } from '../services/AuthenticationService';
 
 class MainComponent extends Component {
 
