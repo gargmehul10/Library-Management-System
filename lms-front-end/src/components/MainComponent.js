@@ -14,6 +14,7 @@ import MyBooksComponent from './MyBooksComponent';
 import SigninService, { ROLE_SESSION_ATTRIBUTE_NAME } from '../services/SigninService';
 import LoginRoute from '../routes/LoginRoute';
 import RedirectRoute from '../routes/RedirectRoute';
+import { USER_NAME_SESSION_ATTRIBUTE_NAME } from '../services/AuthenticationService';
 
 class MainComponent extends Component {
 
@@ -27,7 +28,7 @@ class MainComponent extends Component {
         }
     }
 
-    handleLogin = (result) => {
+    handleLogin = (result, email) => {
         
         this.setState({
             isUserLoggedIn: result,
@@ -63,7 +64,7 @@ class MainComponent extends Component {
                 <HeaderComponent isUserLoggedIn={this.state.isUserLoggedIn} hasRole={this.state.role} hasLoggedOut={this.handleLogout} />
                 <br />
                 <Switch>
-                    <LoginRoute path="/login" component={(props) => <LoginComponent isLoggedIn={this.handleLogin} roleOfUser={this.handleRole} />} />
+                    <LoginRoute path="/login" component={() => <LoginComponent isLoggedIn={this.handleLogin} roleOfUser={this.handleRole} />} />
                     { this.state.role > 'ROLE_ADMIN' && <AuthenticatedRoute path="/reserve-book" component={ReserveBookComponent} /> }
                     { this.state.role > 'ROLE_ADMIN' && <AuthenticatedRoute path="/my-books" component={MyBooksComponent} /> }
                     { this.state.role < 'ROLE_USER' && <AuthenticatedRoute exact path="/home" component={HomeComponent} /> }

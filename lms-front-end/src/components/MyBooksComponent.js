@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Spring } from 'react-spring/renderprops';
 import { Button, Table } from 'reactstrap';
+import AdminService from '../services/AdminService';
+import { USER_NAME_SESSION_ATTRIBUTE_NAME } from '../services/SigninService';
+import UserService from '../services/UserService';
 
 class MyBooksComponent extends Component {
 
@@ -9,23 +12,7 @@ class MyBooksComponent extends Component {
         super(props);
         
         this.state = {
-            reservedBooks: [
-                {
-                    id: 7,
-                    name: 'Pro Spring',
-                    category: 'Spring',
-                },
-                {
-                    id: 10,
-                    name: 'Head First Java',
-                    category: 'Java',
-                },
-                {
-                    id: 14,
-                    name: 'Introduction to Docker',
-                    category: 'Docker',
-                }
-            ],
+            reservedBooks: [],
         }
 
         this.returnBook = this.returnBook.bind(this);
@@ -33,9 +20,25 @@ class MyBooksComponent extends Component {
     
     returnBook(id) {
 
-        this.setState({
+        UserService.returnBook(id, localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)).then((res) => {
+            
+            this.setState({
 
-            reservedBooks: this.state.reservedBooks.filter((book) => book.id !== id),
+                reservedBooks: this.state.reservedBooks.filter((book) => book.id !== id),
+            });
+        });
+    }
+
+    componentDidMount() {
+
+        AdminService.getAllBooks().then((res) => {
+
+            UserService.getUserByEmailId(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)).then((response) => {
+
+                this.setState({
+                    reservedBooks: res.data.filter((book) => response.data.books.includes(book.id)),
+                })
+            })
         });
     }
 
