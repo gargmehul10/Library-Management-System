@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,14 +34,13 @@ public class User {
 	
 	@ElementCollection
 	@CollectionTable(name="reserve_books", joinColumns=@JoinColumn(name="id"))
-	@Column(name="book_id")
-	private List<Long> books=new ArrayList<Long>();
+	private List<ReserveBook> books=new ArrayList<ReserveBook>();
 	
 	public User() {
 		
 	}
-
-	public User(Long id, String emailId, String password, String role, List<Long> books) {
+	
+	public User(Long id, String emailId, String password, String role, List<ReserveBook> books) {
 		super();
 		this.id = id;
 		this.emailId = emailId;
@@ -48,8 +48,6 @@ public class User {
 		this.role = role;
 		this.books = books;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -83,11 +81,11 @@ public class User {
 		this.role = role;
 	}
 
-	public List<Long> getBooks() {
+	public List<ReserveBook> getBooks() {
 		return books;
 	}
 
-	public void setBooks(List<Long> books) {
+	public void setBooks(List<ReserveBook> books) {
 		this.books = books;
 	}
 }

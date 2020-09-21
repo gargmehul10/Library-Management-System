@@ -1,5 +1,6 @@
 package com.mehul.lmsbackend.controller;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mehul.lmsbackend.exception.ResourceNotFoundException;
 import com.mehul.lmsbackend.model.Book;
+import com.mehul.lmsbackend.model.ReserveBook;
 import com.mehul.lmsbackend.model.User;
 import com.mehul.lmsbackend.repository.BookRepository;
 import com.mehul.lmsbackend.repository.UserRepository;
@@ -33,7 +35,7 @@ public class UserController {
 		List<User> list = userRepository.findByEmailId(user.getEmailId());
 		
 		User updatedUser = list.get(0);
-		updatedUser.getBooks().add(id);
+		updatedUser.getBooks().add(new ReserveBook(id, new Date()));
 		userRepository.save(updatedUser);
 		
 		Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not exist with id :" + id));
@@ -59,7 +61,7 @@ public class UserController {
 		List<User> list = userRepository.findByEmailId(user.getEmailId());
 			
 		User updatedUser = list.get(0);
-		updatedUser.getBooks().remove(id);
+		updatedUser.getBooks().remove(updatedUser.getBooks().stream().filter(book -> book.getId() == id).findAny().orElse(null));
 		userRepository.save(updatedUser);
 			
 		Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not exist with id :" + id));

@@ -72,7 +72,7 @@ class LoginComponent extends Component {
                                         </CardTitle>
                                         <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                                             <Alert isOpen={this.state.hasLoginFailed} toggle={this.onDismiss} color="danger">
-                                                Invalid Credentials
+                                                <span role="img" aria-label="no-entry">&#9940;</span> Invalid Credentials
                                             </Alert>
                                             <Row className="form-group">
                                                 <Label htmlFor="emailId" md={12}>Email</Label>

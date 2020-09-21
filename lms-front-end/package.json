@@ -11,6 +11,7 @@
     "bootstrap-social": "^5.1.1",
     "font-awesome": "^4.7.0",
     "mdbreact": "^4.27.0",
+    "moment": "^2.28.0",
     "react": "^16.13.1",
     "react-bootstrap-table": "^4.3.1",
     "react-dom": "^16.13.1",

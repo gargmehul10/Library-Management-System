@@ -39,9 +39,9 @@ class FooterComponent extends Component {
                         }
                         { 
                             this.props.isUserLoggedIn &&
-                            <div className="col-8 offset-1 col-sm-7">
+                            <div className="col-10 offset-1 col-sm-7">
                                 <h5>About</h5>
-                                <p>Launched in 2020, LMS facilitates the working of library. It allows the librarian to 
+                                <p style={{ textAlign: "justify", textJustify: "inter-word" }}>Launched in 2020, LMS facilitates the working of a library. It allows the librarian to 
                                     maintain library resources in a more operative manner that will not only help save  
                                     time but will also be useful for students to keep a constant track of the availability 
                                     of all books in the library. </p>
@@ -49,9 +49,9 @@ class FooterComponent extends Component {
                         }
                         { 
                             !this.props.isUserLoggedIn &&
-                            <div className="col-8 offset-1 col-sm-11">
+                            <div className="col-10 offset-1 col-sm-11">
                                 <h5>About</h5>
-                                <p>Launched in 2020, LMS facilitates the working of library. It allows the librarian to 
+                                <p style={{ textAlign: "justify", textJustify: "inter-word" }}>Launched in 2020, LMS facilitates the working of library. It allows the librarian to 
                                     maintain library resources in a more operative manner that will not only help save  
                                     time but will also be useful for students to keep a constant track of the availability 
                                     of all books in the library. </p>

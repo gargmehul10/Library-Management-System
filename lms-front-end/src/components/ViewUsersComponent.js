@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem, Table, Button, Alert } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Table, Button, ButtonGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import AdminService from '../services/AdminService';
 import { Spring } from 'react-spring/renderprops';
@@ -45,7 +45,7 @@ class ViewUsersComponent extends Component {
             else {
 
                 toast.error('❌ Unable to delete!', { autoClose: 2000 });
-                toast.warn('⚠️ This user has some books reserved.', { delay: 1000 });
+                toast.warn('⚠️ ' + response.data.emailId + ' has ' + response.data.books.length + ' books reserved.', { delay: 1000 });
             }
         });   
     }
@@ -87,8 +87,10 @@ class ViewUsersComponent extends Component {
                                                 <tr key={user.id}>
                                                     <td style={{width: "80%"}}>{user.emailId}</td>
                                                     <td style={{width: "20%"}}>
-                                                        <Button outline color="primary" onClick={() => this.editUser(user.id)}>Update</Button>
-                                                        <Button outline color="danger" style={{marginLeft: "10px"}} onClick={() => this.deleteUser(user.id)}>Delete</Button> 
+                                                        <ButtonGroup>
+                                                            <Button outline color="primary" onClick={() => this.editUser(user.id)}>Update</Button>
+                                                            <Button outline color="danger" onClick={() => this.deleteUser(user.id)}>Delete</Button> 
+                                                        </ButtonGroup>
                                                     </td>
                                                 </tr>
                                             )

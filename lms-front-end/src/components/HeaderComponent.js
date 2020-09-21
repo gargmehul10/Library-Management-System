@@ -94,7 +94,7 @@ class HeaderComponent extends Component {
                             }
                             <Nav navbar className="ml-auto">
                                 <UncontrolledDropdown nav inNavbar>
-                                    <DropdownToggle nav caret>
+                                    <DropdownToggle nav caret style={{ fontWeight: "bold" }}>
                                         <span className="fa fa-user-circle fa-lg"></span> {localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)}
                                     </DropdownToggle>
                                     <DropdownMenu right>

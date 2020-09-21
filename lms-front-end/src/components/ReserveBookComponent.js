@@ -30,7 +30,7 @@ class ReserveBookComponent extends Component {
             UserService.getUserByEmailId(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)).then((response) => {
 
                 this.setState({
-                    data: res.data.filter((book) => !response.data.books.includes(book.id)),
+                    data: res.data.filter((book) => !response.data.books.some((reservedBook) => book.id === reservedBook.id)),
                     reservedBooksCount: response.data.books.length,
                 })
             })
@@ -50,6 +50,8 @@ class ReserveBookComponent extends Component {
             // reserve book api
             UserService.reserveBook(row.id, localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)).then((res) => {
 
+                toast.success('☑️ Book reserved successfully!');
+                
                 this.setState({
                     
                     // data: this.state.data.forEach((obj) => {
@@ -62,8 +64,6 @@ class ReserveBookComponent extends Component {
                     onReserveText: row.name,
                     reservedBooksCount: this.state.reservedBooksCount+1,
                 })
-
-                toast.success('☑️ Book reserved successfully!');
             });
         }
     }
@@ -106,7 +106,7 @@ class ReserveBookComponent extends Component {
                     { props => (
                         <div style={props} className="container content">
                             <Alert isOpen={this.state.isReserved} toggle={this.onDismissReserved} color="warning">
-                                ⚠️ Please note that {this.state.onReserveText} can be reserved only for a maximum of 2 weeks.
+                                <span role="img" aria-label="waring">⚠️</span> Please note that {this.state.onReserveText} can be reserved only for a maximum of 2 weeks.
                             </Alert>
                             <BootstrapTable 
                                 data={this.state.data} 
