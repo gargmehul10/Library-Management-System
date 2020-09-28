@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Button, Row, Col, Label, Alert, Card, CardBody, CardTitle } from 'reactstrap';
-import { Control, LocalForm } from 'react-redux-form';
+import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Spring } from 'react-spring/renderprops';
 import SigninService from '../services/SigninService';
 import  { withRouter } from 'react-router-dom';
+
+const required = (val) => val && val.length;
 
 class LoginComponent extends Component {
 
@@ -30,6 +32,7 @@ class LoginComponent extends Component {
         // });
 
         SigninService.executeBasicAuthenticationService(values).then((res) => {
+        
             var role = res.data;
             if(role < 'ROLE') {
                 this.setState({ hasLoginFailed: true });
@@ -78,7 +81,19 @@ class LoginComponent extends Component {
                                                 <Label htmlFor="emailId" md={12}>Email</Label>
                                                 <Col md={12}>
                                                     <Control.text model=".emailId" id="emailId" name="emailId" 
-                                                                placeholder="Email" className="form-control" />
+                                                                placeholder="Email" className="form-control" 
+                                                                validators={{
+                                                                    required, 
+                                                                }} />
+                                                    <Errors 
+                                                        className="text-danger"
+                                                        model=".emailId"
+                                                        show="touched"
+                                                        component={(props) => <Alert color="danger" className="error">{props.children}</Alert>}
+                                                        messages={{
+                                                        required: 'Required', 
+                                                    }}
+                                                    />
                                                 </Col>
                                             </Row>
                                             <Row className="form-group">
@@ -86,7 +101,19 @@ class LoginComponent extends Component {
                                                 <Col md={12}>
                                                     <Control type="password" model=".password" id="password" name="password"
                                                             placeholder="Password"
-                                                            className="form-control" />
+                                                            className="form-control" 
+                                                            validators={{
+                                                                required, 
+                                                            }} />
+                                                <Errors 
+                                                    className="text-danger"
+                                                    model=".password"
+                                                    show="touched"
+                                                    component={(props) => <Alert color="danger" className="error">{props.children}</Alert>}
+                                                    messages={{
+                                                    required: 'Required', 
+                                                }}
+                                                />
                                                 </Col>
                                             </Row>
                                             {/* <Row className="form-group">

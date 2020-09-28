@@ -96,7 +96,8 @@ class ReserveBookComponent extends Component {
             clearSearch: true,
             clearSearchBtn: this.createCustomClearButton,
             prePage: 'Previous',
-            nextPage: 'Next',
+            nextPage: 'Next', 
+            sizePerPageList: [ 5, 10, 25, 30, 50 ], 
           };
 
         return (

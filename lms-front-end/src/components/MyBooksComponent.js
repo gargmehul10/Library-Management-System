@@ -5,7 +5,7 @@ import AdminService from '../services/AdminService';
 import { USER_NAME_SESSION_ATTRIBUTE_NAME } from '../services/SigninService';
 import UserService from '../services/UserService';
 import { ToastContainer, toast, Flip } from 'react-toastify';
-import moment from 'moment'
+import moment from 'moment';
 
 class MyBooksComponent extends Component {
 
@@ -70,7 +70,7 @@ class MyBooksComponent extends Component {
                                 </div>
                             </div>
                             <div className="row col-auto">
-                                <Table hover borderless>
+                                <Table dark hover borderless>
                                     <thead>
                                         <tr>
                                             <th>Name</th>

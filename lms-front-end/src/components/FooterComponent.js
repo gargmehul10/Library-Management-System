@@ -60,7 +60,7 @@ class FooterComponent extends Component {
                     </div>
                     <div className="row justify-content-center">             
                         <div className="col-auto">
-                            <p>© Copyright 2020 Library-Management-System (LMS)</p>
+                            <p className="text-info">© Copyright 2020 Library-Management-System (LMS)</p>
                         </div>
                     </div>
                 </div>

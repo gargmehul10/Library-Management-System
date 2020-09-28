@@ -26,6 +26,7 @@ public class AuthenticationController {
     	
     	if(list.size() == 0 || !list.get(0).getPassword().equals(user.getPassword()))
     		return ResponseEntity.ok("Invalid user credentials");
+    	
     	return ResponseEntity.ok(list.get(0).getRole());
     }
 }

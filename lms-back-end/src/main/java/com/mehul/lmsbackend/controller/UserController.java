@@ -34,14 +34,17 @@ public class UserController {
 		
 		List<User> list = userRepository.findByEmailId(user.getEmailId());
 		
+		if(list.size() == 0)
+			throw new ResourceNotFoundException("User not exist with emailId :" + user.getEmailId());
+		
 		User updatedUser = list.get(0);
 		updatedUser.getBooks().add(new ReserveBook(id, new Date()));
-		userRepository.save(updatedUser);
 		
 		Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not exist with id :" + id));
 		book.setQuantity(book.getQuantity()-1);
 		bookRepository.save(book);
 		
+		userRepository.save(updatedUser);
 		return updatedUser;
 	}
 	
@@ -51,6 +54,9 @@ public class UserController {
 			
 		List<User> list = userRepository.findByEmailId(user.getEmailId());
 			
+		if(list.size() == 0)
+			throw new ResourceNotFoundException("User not exist with emailId :" + user.getEmailId());
+		
 		return list.get(0);
 	}
 	
@@ -59,15 +65,18 @@ public class UserController {
 	public User returnBook(@PathVariable Long id, @RequestBody User user) {
 			
 		List<User> list = userRepository.findByEmailId(user.getEmailId());
+		
+		if(list.size() == 0)
+			throw new ResourceNotFoundException("User not exist with emailId :" + user.getEmailId());
 			
 		User updatedUser = list.get(0);
 		updatedUser.getBooks().remove(updatedUser.getBooks().stream().filter(book -> book.getId() == id).findAny().orElse(null));
-		userRepository.save(updatedUser);
 			
 		Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not exist with id :" + id));
 		book.setQuantity(book.getQuantity()+1);
 		bookRepository.save(book);
 			
+		userRepository.save(updatedUser);
 		return updatedUser;
 	}
 }
